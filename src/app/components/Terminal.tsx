@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState, KeyboardEvent, useEffect, useRef } from "react";
+import { showBanner } from "./showbanner";
+import { banner } from "./banner";
 
 const Terminal: React.FC = () => {
   const [input, setInput] = useState("");
@@ -40,7 +42,8 @@ const Terminal: React.FC = () => {
         setOutput([]);
         return;
       case "banner":
-        response = "don't know the code to refresh the Terminal yet...";
+        showBanner();
+
         break;
       case "secret":
         response = "Win a round of minesweeper to gain my trust";
@@ -56,7 +59,36 @@ const Terminal: React.FC = () => {
   };
 
   return (
-    <div className="bg-black text-teal-400 font-mono h-screen p-4">
+    <div
+      className="bg-black text-teal-400 font-mono h-screen p-4"
+      style={{
+        backgroundImage: "radial-gradient(rgb(205, 25, 205) 5%, black 0)",
+        backgroundSize: "40px 40px",
+        minWidth: "500px", // Ensure container is wide enough
+        maxHeight: "10000px",
+        overflow: "auto", // Allow scrolling if needed
+      }}
+    >
+      {/* Banner Section */}
+      <div
+        className="mb-4"
+        style={{
+          fontFamily: "'Courier New', Courier, monospace",
+          whiteSpace: "pre-wrap", // Preserve whitespace and line breaks
+          lineHeight: "1.2", // Adjust line height to prevent squishing
+          fontSize: "14px", // Ensure font size is appropriate for readability
+          overflowX: "auto", // Allow horizontal scrolling if content overflows
+          overflowY: "hidden", // Prevent vertical scrolling if not needed
+          width: "100%", // Ensure the container is wide enough
+          maxWidth: "100%", // Prevent the container from exceeding viewport width
+          margin: "0 auto", // Center the container if desired
+        }}
+      >
+        {banner}
+      </div>
+      <div>type 'help' to search for commands</div>
+
+      {/* Terminal Section */}
       <div className="overflow-auto h-full">
         {output.map((line, index) => (
           <div key={index} className="output">
