@@ -1,9 +1,12 @@
-// type Props = {
-//     banner: ;
-// }
+import React from "react";
 
-// declare banner
-export function showBanner() {
-  setOutput([]);
-  return banner;
+interface ShowBannerProps {
+  setOutput: React.Dispatch<React.SetStateAction<JSX.Element[]>>;
+  banner: JSX.Element;
+}
+
+// Define and export the showBanner function
+export function showBanner({ setOutput, banner }: ShowBannerProps) {
+  // Clear the output and display only the banner
+  setOutput([banner]);
 }

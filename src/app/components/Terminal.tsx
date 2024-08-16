@@ -26,7 +26,7 @@ const Terminal: React.FC = () => {
     switch (command.toLowerCase()) {
       case "help":
         response =
-          "Available commands: help, about, minesweeper, contact, clear, banner, secret, delete";
+          "Available commands: about, minesweeper, contact, clear, secret, delete";
         break;
       case "about":
         response =
@@ -41,8 +41,6 @@ const Terminal: React.FC = () => {
       case "clear":
         setOutput([]);
         return;
-      case "banner":
-        showBanner();
 
         break;
       case "secret":
@@ -82,35 +80,55 @@ const Terminal: React.FC = () => {
           width: "100%", // Ensure the container is wide enough
           maxWidth: "100%", // Prevent the container from exceeding viewport width
           margin: "0 auto", // Center the container if desired
+          padding: "2rem",
         }}
       >
         {banner}
       </div>
-      <div>type 'help' to search for commands</div>
 
       {/* Terminal Section */}
-      <div className="overflow-auto h-full">
+      {!output.length && (
+        <div className="py-4">
+          {" "}
+          {/* Increased padding for the initial 'help' message */}
+          <p>Type 'help' to search for commands</p>
+        </div>
+      )}
+
+      <div
+        className="overflow-auto h-full"
+        style={{
+          padding: "8px 0", // Extra padding around the output container
+        }}
+      >
         {output.map((line, index) => (
-          <div key={index} className="output">
+          <div key={index} className="output py-2">
+            {" "}
+            {/* Padding for each output line */}
             {line}
           </div>
         ))}
-        <div className="input flex items-center">
-          <span className="prompt">visitor@webdev4life:~$</span>
+
+        <div className="input flex items-center my-2">
+          <span className="prompt mr-2">visitor@webdev4life:~$</span>
           <div className="relative flex-1">
             <input
               ref={inputRef}
-              className="command bg-transparent outline-none text-teal-400 pr-2"
+              className="command bg-transparent outline-none text-teal-400 mr-2"
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
-              style={{ caretColor: "transparent" }}
+              style={{
+                caretColor: "transparent",
+                padding: "4px 0", // Padding inside the input
+              }}
             />
             <div
-              className="absolute top-0 bottom-0 bg-teal-400"
+              className="absolute top-0 bottom-0 bg-teal-400 p-0"
               style={{
                 width: "10px",
+                height: "27px",
                 left: `${input.length * 10 + 1}px`,
                 animation: "blinker 1s linear infinite",
               }}
@@ -118,13 +136,6 @@ const Terminal: React.FC = () => {
           </div>
         </div>
       </div>
-      <style jsx global>{`
-        @keyframes blinker {
-          50% {
-            opacity: 0;
-          }
-        }
-      `}</style>
     </div>
   );
 };
