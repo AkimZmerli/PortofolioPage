@@ -128,7 +128,7 @@ const Terminal: React.FC = () => {
               className="absolute top-0 bottom-0 bg-teal-400 p-0"
               style={{
                 width: "10px",
-                height: "27px",
+                height: "25px",
                 left: `${input.length * 10 + 1}px`,
                 animation: "blinker 1s linear infinite",
               }}
@@ -136,6 +136,13 @@ const Terminal: React.FC = () => {
           </div>
         </div>
       </div>
+      <style jsx global>{`
+        @keyframes blinker {
+          50% {
+            opacity: 0;
+          }
+        }
+      `}</style>
     </div>
   );
 };
