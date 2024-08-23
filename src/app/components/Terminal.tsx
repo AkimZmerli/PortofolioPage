@@ -128,7 +128,7 @@ const Terminal: React.FC = () => {
               className="absolute top-0 bottom-0 bg-teal-400 p-0"
               style={{
                 width: "10px",
-                height: "25px",
+                height: "24px",
                 left: `${input.length * 10 + 1}px`,
                 animation: "blinker 1s linear infinite",
               }}
