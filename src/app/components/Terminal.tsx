@@ -26,7 +26,7 @@ const Terminal: React.FC = () => {
     switch (command.toLowerCase()) {
       case "help":
         response =
-          "Available commands: about, contact, minesweeper, clear, secret, delete";
+          "Available commands: about, contact, minesweeper, secret, clear, delete";
         break;
       case "about":
         response =
