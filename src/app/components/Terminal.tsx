@@ -3,10 +3,11 @@
 import React, { useState, KeyboardEvent, useEffect, useRef } from "react";
 import { showBanner } from "./showbanner";
 import { banner } from "./banner";
+import Typewriter from "../components/Typewriter";
 
 const Terminal: React.FC = () => {
   const [input, setInput] = useState("");
-  const [output, setOutput] = useState<string[]>([]);
+  const [output, setOutput] = useState<React.ReactNode[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -21,16 +22,16 @@ const Terminal: React.FC = () => {
   };
 
   const handleCommand = (command: string) => {
-    let response = "";
+    let response: JSX.Element | string = "";
 
     switch (command.toLowerCase()) {
       case "help":
         response =
-          "Available commands: about, contact, minesweeper, secret, clear, delete";
+          "Available commands: help, about, minesweeper, contact, clear, banner, secret, delete";
         break;
       case "about":
         response =
-          "I am the world's next second best Web Developer. Join in me in the fight against static and boring content";
+          "I am the world's next second best Web Developer. Join me in the fight against static and boring content.";
         break;
       case "minesweeper":
         response = "still programming...buffering @ 99%";
@@ -41,8 +42,10 @@ const Terminal: React.FC = () => {
       case "clear":
         setOutput([]);
         return;
-
-        break;
+      case "banner":
+        const banner = <pre>{/* Your ASCII banner here */}</pre>;
+        showBanner({ setOutput, banner });
+        return;
       case "secret":
         response = "Win a round of minesweeper to gain my trust";
         break;
@@ -53,7 +56,20 @@ const Terminal: React.FC = () => {
         response = `Command not found: ${command}`;
     }
 
-    setOutput([...output, `visitor@webdev4life:~$ ${command}`, response]);
+    // Use the Typewriter component for the response
+    const outputWithTypewriter = (
+      <Typewriter key={`response-${output.length}`} text={response} />
+    );
+
+    setOutput([
+      ...output,
+      <div key={`command-${output.length}`} className="text-yellow-400 py-2">
+        visitor@webdev4life:~$ {command}
+      </div>,
+      <div key={`response-${output.length}`} className="text-green-400 py-2">
+        {outputWithTypewriter}
+      </div>,
+    ]);
   };
 
   return (

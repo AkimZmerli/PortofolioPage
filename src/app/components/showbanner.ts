@@ -1,11 +1,12 @@
+// showbanner.ts
 import React from "react";
 
+// Define the type for the props
 interface ShowBannerProps {
-  setOutput: React.Dispatch<React.SetStateAction<JSX.Element[]>>;
-  banner: JSX.Element;
+  setOutput: React.Dispatch<React.SetStateAction<React.ReactNode[]>>;
+  banner: React.ReactNode;
 }
 
-// Define and export the showBanner function
 export function showBanner({ setOutput, banner }: ShowBannerProps) {
   // Clear the output and display only the banner
   setOutput([banner]);
