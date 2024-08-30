@@ -5,7 +5,7 @@ interface TypewriterProps {
   speed?: number; // Optional speed property to control typing speed
 }
 
-const Typewriter: React.FC<TypewriterProps> = ({ text, speed = 50 }) => {
+const Typewriter: React.FC<TypewriterProps> = ({ text, speed = 40 }) => {
   const [displayedText, setDisplayedText] = useState("");
 
   useEffect(() => {
