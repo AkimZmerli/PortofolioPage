@@ -3,6 +3,7 @@ import React, { useState, KeyboardEvent, useEffect, useRef } from "react";
 import Banner from "../components/banner";
 import renderBanner from "../components/renderbanner";
 import Typewriter from "../components/Typewriter";
+import Minesweeper from "./minesweeper";
 
 function Terminal() {
   const [input, setInput] = useState("");
@@ -37,7 +38,7 @@ function Terminal() {
           "I am the world's next second best Web Developer. Join me in the fight against static and boring content.";
         break;
       case "minesweeper":
-        response = "still programming...buffering @ 99%";
+        response = <Minesweeper />;
         break;
       case "contact":
         response = "akim.google@zmerlimail.com";
@@ -51,8 +52,8 @@ function Terminal() {
         const banner = <pre>{/* Your ASCII banner here */}</pre>;
         renderBanner({ setOutput, banner, setShowBanner });
         break;
-      case "secret":
-        response = "Win a round of minesweeper to gain my trust";
+      case "weather":
+        response = "no response yet";
         break;
       case "delete":
         response = "deleting your files ..... rm -rf";
