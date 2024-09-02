@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 
 const generateBoard = (rows: number, cols: number, mines: number) => {
   const board = Array.from({ length: rows }, () =>
@@ -24,14 +24,11 @@ const Minesweeper: React.FC = () => {
   const mines = 10;
   const [board, setBoard] = useState(generateBoard(rows, cols, mines));
 
-  const handleClick = useCallback(
-    (rowIndex: number, colIndex: number) => {
-      const newBoard = [...board];
-      newBoard[rowIndex][colIndex].isOpen = true;
-      setBoard(newBoard);
-    },
-    [board, setBoard]
-  );
+  const handleClick = (rowIndex: number, colIndex: number) => {
+    const newBoard = [...board];
+    newBoard[rowIndex][colIndex].isOpen = true;
+    setBoard(newBoard);
+  };
 
   return (
     <div className="minesweeper-board">

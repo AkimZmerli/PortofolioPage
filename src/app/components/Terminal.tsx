@@ -1,20 +1,18 @@
 "use client";
 import React, { useState, KeyboardEvent, useEffect, useRef } from "react";
 import Banner from "../components/banner";
-import renderBanner from "../components/renderbanner";
 import Typewriter from "../components/Typewriter";
 import Minesweeper from "./minesweeper";
 
 function Terminal() {
   const [input, setInput] = useState("");
-  const [showBanner, setShowBanner] = useState(false);
+  const [showBanner, setShowBanner] = useState(true); // Start with the banner shown
   const [output, setOutput] = useState<React.ReactNode[]>([
-    <p>Type 'help' to search for commands</p>,
+    <p key="initial">Type 'help' to search for commands</p>,
   ]);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    setShowBanner(true);
     inputRef.current?.focus();
   }, []);
 
@@ -38,7 +36,7 @@ function Terminal() {
           "I am the world's next second best Web Developer. Join me in the fight against static and boring content.";
         break;
       case "minesweeper":
-        response = <Minesweeper />;
+        response = <Minesweeper key="minesweeper" />;
         break;
       case "contact":
         response = "akim.google@zmerlimail.com";
@@ -49,11 +47,10 @@ function Terminal() {
         setInput(""); // Optionally clear the input field
         return;
       case "banner":
-        const banner = <pre>{/* Your ASCII banner here */}</pre>;
-        renderBanner({ setOutput, banner, setShowBanner });
-        break;
-      case "weather":
-        response = "no response yet";
+        setShowBanner(true); // Show the banner
+        return;
+      case "secret":
+        response = "Win a round of minesweeper to gain my trust";
         break;
       case "delete":
         response = "deleting your files ..... rm -rf";
@@ -62,21 +59,20 @@ function Terminal() {
         response = `Command not found: ${command}`;
     }
 
-    // Use the Typewriter component for the response if response is not empty
-    const outputWithTypewriter = response ? (
+    // Use the Typewriter component for the response
+    const outputWithTypewriter = (
       <Typewriter key={`response-${output.length}`} text={response} />
-    ) : null;
+    );
 
-    // Filter out any undefined values
-    const newOutput = [
+    setOutput([
       ...output,
       <div key={`command-${output.length}`} className="text-teal-400 py-2">
         visitor@webdev4life:~$ {command}
       </div>,
-      outputWithTypewriter,
-    ].filter(Boolean); // This filters out null and undefined values
-
-    setOutput(newOutput);
+      <div key={`response-${output.length}`} className="text-teal-400 py-2">
+        {outputWithTypewriter}
+      </div>,
+    ]);
   };
 
   return (
@@ -107,7 +103,7 @@ function Terminal() {
             padding: "2rem",
           }}
         >
-          {<Banner />}
+          <Banner />
         </div>
       )}
 
