@@ -81,9 +81,9 @@ function Terminal() {
       style={{
         backgroundImage: "radial-gradient(rgb(205, 25, 205) 5%, black 0)",
         backgroundSize: "40px 40px",
-        minWidth: "500px", // Ensure container is wide enough
+        minWidth: "500px",
         maxHeight: "10000px",
-        overflow: "auto", // Allow scrolling if needed
+        overflow: "auto",
       }}
     >
       {/* Banner Section */}
@@ -92,14 +92,14 @@ function Terminal() {
           className="mb-4"
           style={{
             fontFamily: "'Courier New', Courier, monospace",
-            whiteSpace: "pre-wrap", // Preserve whitespace and line breaks
-            lineHeight: "1.2", // Adjust line height to prevent squishing
-            fontSize: "14px", // Ensure font size is appropriate for readability
-            overflowX: "auto", // Allow horizontal scrolling if content overflows
-            overflowY: "hidden", // Prevent vertical scrolling if not needed
-            width: "100%", // Ensure the container is wide enough
-            maxWidth: "100%", // Prevent the container from exceeding viewport width
-            margin: "0 auto", // Center the container if desired
+            whiteSpace: "pre-wrap",
+            lineHeight: "1.2",
+            fontSize: "14px",
+            overflowX: "auto",
+            overflowY: "hidden",
+            width: "100%",
+            maxWidth: "100%",
+            margin: "0 auto",
             padding: "2rem",
           }}
         >
