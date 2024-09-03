@@ -18,6 +18,10 @@ function Terminal() {
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
+      if (input.trim() === "") {
+        // If the input is empty or only whitespace, do nothing
+        return;
+      }
       handleCommand(input);
       setInput("");
     }
