@@ -29,14 +29,14 @@ function Terminal() {
     switch (command.toLowerCase()) {
       case "help":
         response =
-          "Available commands: help, about, minesweeper, contact, clear, banner, secret, delete";
+          "Available commands: help, about, weather, contact, clear, banner, secret, delete";
         break;
       case "about":
         response =
           "I am the world's next second best Web Developer. Join me in the fight against static and boring content.";
         break;
-      case "minesweeper":
-        response = <Minesweeper key="minesweeper" />;
+      case "weather":
+        response = "fetching data ........ ";
         break;
       case "contact":
         response = "akim.google@zmerlimail.com";
