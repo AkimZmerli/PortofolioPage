@@ -7,18 +7,23 @@ interface TypewriterProps {
 
 const Typewriter: React.FC<TypewriterProps> = ({ text, speed = 45 }) => {
   const [displayedText, setDisplayedText] = useState("");
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [typingCompleted, setTypingCompleted] = useState(false);
 
   useEffect(() => {
-    let currentIndex = 0;
-    const typeInterval = setInterval(() => {
-      setDisplayedText((prev) => prev + text[currentIndex]);
-      currentIndex++;
-      if (currentIndex === text.length) {
-        clearInterval(typeInterval);
-      }
-    }, speed);
-    return () => clearInterval(typeInterval); // Cleanup interval on component unmount
-  }, [text, speed]);
+    if (!typingCompleted) {
+      const typeInterval = setInterval(() => {
+        if (currentIndex < text.length) {
+          setDisplayedText(displayedText + text[currentIndex]);
+          setCurrentIndex(currentIndex + 1);
+        } else {
+          clearInterval(typeInterval);
+          setTypingCompleted(true);
+        }
+      }, speed);
+      return () => clearInterval(typeInterval); // Cleanup interval on component unmount
+    }
+  }, [text, speed, currentIndex, displayedText, typingCompleted]);
 
   return <span>{displayedText}</span>;
 };
