@@ -66,7 +66,7 @@ function Terminal() {
 
     setOutput([
       ...output,
-      <div key={`command-${output.length}`} className="text-teal-400 py-2">
+      <div key={`command-${output.length}`} className="text-yellow-400 py-2">
         visitor@webdev4life:~$ {command}
       </div>,
       <div key={`response-${output.length}`} className="text-teal-400 py-2">
