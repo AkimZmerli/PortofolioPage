@@ -2,7 +2,7 @@
 import React, { useState, KeyboardEvent, useEffect, useRef } from "react";
 import Banner from "../components/banner";
 import Typewriter from "../components/Typewriter";
-import Minesweeper from "./minesweeper";
+import getWeather from "./weather";
 
 function Terminal() {
   const [input, setInput] = useState("");
@@ -27,7 +27,7 @@ function Terminal() {
     }
   };
 
-  const handleCommand = (command: string) => {
+  const handleCommand = (command: string, args?: string[]) => {
     let response: JSX.Element | string = "";
 
     switch (command.toLowerCase()) {
@@ -40,8 +40,7 @@ function Terminal() {
           "I am the world's next second best Web Developer. Join me in the fight against static and boring content.";
         break;
       case "weather":
-        response = "fetching data ........ ";
-        break;
+        const location = "Leipzig";
       case "contact":
         response = "akim.google@zmerlimail.com";
         break;
