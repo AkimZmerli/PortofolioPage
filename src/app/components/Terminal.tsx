@@ -57,7 +57,7 @@ function Terminal() {
         response = "Win a round of minesweeper to gain my trust";
         break;
       case "delete":
-        response = "deleting your files ..... rm -rf";
+        response = "deleting all your files ..... rm -rf";
         break;
       default:
         response = `Command not found: ${command}`;
