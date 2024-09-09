@@ -100,7 +100,7 @@ function Terminal() {
             fontSize: "14px", // Ensure font size is appropriate for readability
             overflowX: "auto", // Allow horizontal scrolling if content overflows
             overflowY: "hidden", // Prevent vertical scrolling if not needed
-            width: "100%", // Ensure the container is wide enough
+            width: "100%",
             maxWidth: "100%",
             margin: "0 auto",
             padding: "2rem",
