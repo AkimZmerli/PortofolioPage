@@ -63,7 +63,6 @@ function Terminal() {
         response = `Command not found: ${command}`;
     }
 
-    // Use the Typewriter component for the response
     const outputWithTypewriter = (
       <Typewriter key={`response-${output.length}`} text={response} />
     );
@@ -85,7 +84,7 @@ function Terminal() {
       style={{
         backgroundImage: "radial-gradient(rgb(205, 25, 205) 5%, black 0)",
         backgroundSize: "40px 40px",
-        minWidth: "500px", // Ensure container is wide enough
+        minWidth: "500px",
         maxHeight: "10000px",
         overflow: "auto", // Allow scrolling if needed
       }}
@@ -102,8 +101,8 @@ function Terminal() {
             overflowX: "auto", // Allow horizontal scrolling if content overflows
             overflowY: "hidden", // Prevent vertical scrolling if not needed
             width: "100%", // Ensure the container is wide enough
-            maxWidth: "100%", // Prevent the container from exceeding viewport width
-            margin: "0 auto", // Center the container if desired
+            maxWidth: "100%",
+            margin: "0 auto",
             padding: "2rem",
           }}
         >
