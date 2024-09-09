@@ -95,10 +95,10 @@ function Terminal() {
           className="mb-4"
           style={{
             fontFamily: "'Courier New', Courier, monospace",
-            whiteSpace: "pre-wrap", // Preserve whitespace and line breaks
-            lineHeight: "1.2", // Adjust line height to prevent squishing
-            fontSize: "14px", // Ensure font size is appropriate for readability
-            overflowX: "auto", // Allow horizontal scrolling if content overflows
+            whiteSpace: "pre-wrap",
+            lineHeight: "1.2",
+            fontSize: "14px",
+            overflowX: "auto",
             overflowY: "hidden",
             width: "100%",
             maxWidth: "100%",
