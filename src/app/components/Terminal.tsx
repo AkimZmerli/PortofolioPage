@@ -8,7 +8,7 @@ function Terminal() {
   const [input, setInput] = useState("");
   const [showBanner, setShowBanner] = useState(true); // Start with the banner shown
   const [output, setOutput] = useState<React.ReactNode[]>([
-    <p key="initial">Type 'help' to search for commands</p>,
+    <p key="initial">Type &apos;help&apos; to search for commands</p>,
   ]);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -40,7 +40,14 @@ function Terminal() {
           "I am the world's next second best Web Developer. Join me in the fight against static and boring content.";
         break;
       case "weather":
-        const location = "Leipzig";
+        getWeather("Leipzig").then((weatherData) => {
+          setOutput((prevOutput) => [
+            ...prevOutput,
+            <pre key="weather">{weatherData}</pre>,
+          ]);
+        });
+        break;
+
       case "contact":
         response = "akim.google@zmerlimail.com";
         break;
@@ -93,18 +100,18 @@ function Terminal() {
       {showBanner && (
         <div
           className="mb-4"
-          style={{
-            fontFamily: "'Courier New', Courier, monospace",
-            whiteSpace: "pre-wrap",
-            lineHeight: "1.2",
-            fontSize: "14px",
-            overflowX: "auto",
-            overflowY: "hidden",
-            width: "100%",
-            maxWidth: "100%",
-            margin: "0 auto",
-            padding: "2rem",
-          }}
+          // style={{
+          //   fontFamily: "'Courier New', Courier, monospace",
+          //   whiteSpace: "pre-wrap",
+          //   lineHeight: "1.2",
+          //   fontSize: "14px",
+          //   overflowX: "auto",
+          //   overflowY: "hidden",
+          //   width: "100%",
+          //   maxWidth: "100%",
+          //   margin: "0 auto",
+          //   padding: "2rem",
+          // }}
         >
           <Banner />
         </div>
@@ -129,7 +136,9 @@ function Terminal() {
           <div key={index} className="output py-2">
             {" "}
             {/* Padding for each output line */}
-            {line}
+            <div className="whitespace-pre" style={{ whiteSpace: "pre" }}>
+              {line}
+            </div>
           </div>
         ))}
 
