@@ -2,13 +2,13 @@
 import React, { useState, KeyboardEvent, useEffect, useRef } from "react";
 import Banner from "../components/banner";
 import Typewriter from "../components/Typewriter";
-import Minesweeper from "./minesweeper";
+import getWeather from "./weather";
 
 function Terminal() {
   const [input, setInput] = useState("");
   const [showBanner, setShowBanner] = useState(true); // Start with the banner shown
   const [output, setOutput] = useState<React.ReactNode[]>([
-    <p key="initial">Type 'help' to search for commands</p>,
+    <p key="initial">Type &apos;help&apos; to search for commands</p>,
   ]);
   const inputRef = useRef<HTMLInputElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -45,21 +45,27 @@ function Terminal() {
     }
   };
 
-  const handleCommand = (command: string) => {
+  const handleCommand = (command: string, args?: string[]) => {
     let response: JSX.Element | string = "";
 
     switch (command.toLowerCase()) {
       case "help":
         response =
-          "Available commands: help, about, minesweeper, contact, clear, banner, secret, delete";
+          "Available commands: help, about, weather, contact, clear, banner, secret, delete";
         break;
       case "about":
         response =
           "I am the world's next second best Web Developer. Join me in the fight against static and boring content.";
         break;
-      case "minesweeper":
-        response = "minesweeper";
+      case "weather":
+        getWeather("Leipzig").then((weatherData) => {
+          setOutput((prevOutput) => [
+            ...prevOutput,
+            <pre key="weather">{weatherData}</pre>,
+          ]);
+        });
         break;
+
       case "contact":
         response = "akim.google@zmerlimail.com";
         break;
@@ -104,25 +110,25 @@ function Terminal() {
         backgroundSize: "40px 40px",
         minWidth: "500px",
         maxHeight: "10000px",
-        overflow: "auto", // Allow scrolling if needed
+        overflow: "auto",
       }}
     >
       {/* Banner Section */}
       {showBanner && (
         <div
           className="mb-4"
-          style={{
-            fontFamily: "'Courier New', Courier, monospace",
-            whiteSpace: "pre-wrap",
-            lineHeight: "1.2",
-            fontSize: "14px",
-            overflowX: "auto",
-            overflowY: "hidden",
-            width: "100%",
-            maxWidth: "100%",
-            margin: "0 auto",
-            padding: "2rem",
-          }}
+          // style={{
+          //   fontFamily: "'Courier New', Courier, monospace",
+          //   whiteSpace: "pre-wrap",
+          //   lineHeight: "1.2",
+          //   fontSize: "14px",
+          //   overflowX: "auto",
+          //   overflowY: "hidden",
+          //   width: "100%",
+          //   maxWidth: "100%",
+          //   margin: "0 auto",
+          //   padding: "2rem",
+          // }}
         >
           <Banner />
         </div>
@@ -147,7 +153,9 @@ function Terminal() {
           <div key={index} className="output py-2">
             {" "}
             {/* Padding for each output line */}
-            {line}
+            <div className="whitespace-pre" style={{ whiteSpace: "pre" }}>
+              {line}
+            </div>
           </div>
         ))}
 
