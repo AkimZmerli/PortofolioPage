@@ -118,21 +118,7 @@ function Terminal() {
     >
       {/* Banner Section */}
       {showBanner && (
-        <div
-          className="mb-4"
-          // style={{
-          //   fontFamily: "'Courier New', Courier, monospace",
-          //   whiteSpace: "pre-wrap",
-          //   lineHeight: "1.2",
-          //   fontSize: "14px",
-          //   overflowX: "auto",
-          //   overflowY: "hidden",
-          //   width: "100%",
-          //   maxWidth: "100%",
-          //   margin: "0 auto",
-          //   padding: "2rem",
-          // }}
-        >
+        <div className="mb-4">
           <Banner />
         </div>
       )}
