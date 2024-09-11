@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 interface TypewriterProps {
   text: string;
-  speed?: number; // Optional speed property to control typing speed
+  speed?: number;
 }
 
 const Typewriter: React.FC<TypewriterProps> = ({ text, speed = 45 }) => {
@@ -21,7 +21,7 @@ const Typewriter: React.FC<TypewriterProps> = ({ text, speed = 45 }) => {
           setTypingCompleted(true);
         }
       }, speed);
-      return () => clearInterval(typeInterval); // Cleanup interval on component unmount
+      return () => clearInterval(typeInterval);
     }
   }, [text, speed, currentIndex, displayedText, typingCompleted]);
 

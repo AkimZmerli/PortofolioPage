@@ -3,6 +3,11 @@ import React, { useState, KeyboardEvent, useEffect, useRef } from "react";
 import Banner from "../components/banner";
 import Typewriter from "../components/Typewriter";
 import getWeather from "./weather";
+import { help } from "./help";
+import { about } from "./about";
+import { contact } from "./contact";
+import { secret } from "./secret";
+import { deleteResponse } from "./delete";
 
 function Terminal() {
   const [input, setInput] = useState("");
@@ -50,12 +55,10 @@ function Terminal() {
 
     switch (command.toLowerCase()) {
       case "help":
-        response =
-          "Available commands: help, about, weather, contact, clear, banner, secret, delete";
+        response = help();
         break;
       case "about":
-        response =
-          "I am the world's next third best Web Developer. Join me in the fight against static and boring content.";
+        response = about();
         break;
       case "weather":
         getWeather("Leipzig").then((weatherData) => {
@@ -67,7 +70,7 @@ function Terminal() {
         break;
 
       case "contact":
-        response = "akim.google@zmerlimail.com";
+        response = contact();
         break;
       case "clear":
         setOutput([]);
@@ -78,10 +81,10 @@ function Terminal() {
         setShowBanner(true);
         return;
       case "secret":
-        response = "Win a round of minesweeper to gain my trust";
+        response = secret();
         break;
       case "delete":
-        response = "deleting all your files ..... rm -rf";
+        response = deleteResponse();
         break;
       default:
         response = `Command not found: ${command}`;
