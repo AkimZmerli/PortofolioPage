@@ -8,6 +8,7 @@ import { about } from "./about";
 import { contact } from "./contact";
 import { secret } from "./secret";
 import { deleteResponse } from "./delete";
+import { Minesweeper } from "./minesweeper";
 
 function Terminal() {
   const [input, setInput] = useState("");
@@ -71,6 +72,9 @@ function Terminal() {
 
       case "contact":
         response = contact();
+        break;
+      case "minesweeper":
+        Minesweeper();
         break;
       case "clear":
         setOutput([]);
