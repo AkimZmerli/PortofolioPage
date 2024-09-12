@@ -9,6 +9,7 @@ import { contact } from "./contact";
 import { secret } from "./secret";
 import { displayDate } from "./dispalyDate";
 import { Minesweeper } from "./minesweeper";
+import { EmailMe } from "./EmailMe";
 
 function Terminal() {
   const [input, setInput] = useState("");
@@ -60,6 +61,9 @@ function Terminal() {
         break;
       case "about":
         response = about();
+        break;
+      case "email":
+        response = EmailMe();
         break;
       case "weather":
         getWeather("Leipzig").then((weatherData) => {
