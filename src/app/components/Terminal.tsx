@@ -7,7 +7,7 @@ import { help } from "./help";
 import { about } from "./about";
 import { contact } from "./contact";
 import { secret } from "./secret";
-import { deleteResponse } from "./delete";
+import { displayDate } from "./dispalyDate";
 import { Minesweeper } from "./minesweeper";
 
 function Terminal() {
@@ -87,8 +87,8 @@ function Terminal() {
       case "secret":
         response = secret();
         break;
-      case "delete":
-        response = deleteResponse();
+      case "date":
+        response = displayDate();
         break;
       default:
         response = `Command not found: ${command}`;
@@ -191,3 +191,15 @@ function Terminal() {
 }
 
 export default Terminal;
+
+{
+  /*
+  ToDo: 
+  remove double scrolling on weather
+  implement a game
+  link to github and linkedIn
+  add email command
+  format padding on ascii art
+  autofocus on input
+  */
+}
