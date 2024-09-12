@@ -9,6 +9,7 @@ import { contact } from "./contact";
 import { secret } from "./secret";
 import { deleteResponse } from "./delete";
 import { Minesweeper } from "./minesweeper";
+import { useScrollToPrompt } from "./scrolling";
 
 function Terminal() {
   const [input, setInput] = useState("");
@@ -16,29 +17,7 @@ function Terminal() {
   const [output, setOutput] = useState<React.ReactNode[]>([
     <p key="initial">Type &apos;help&apos; to search for commands</p>,
   ]);
-  const inputRef = useRef<HTMLInputElement>(null);
-  const bottomRef = useRef<HTMLDivElement>(null);
-
-  const handleAutoScroll = () => {
-    if (bottomRef.current && inputRef.current) {
-      const { scrollTop, scrollHeight, clientHeight } =
-        inputRef.current.parentElement!;
-
-      // Check if the bottom is near by 100 pixels
-      const distanceToBottom = scrollHeight - (scrollTop + clientHeight);
-      if (distanceToBottom <= 200) {
-        bottomRef.current.scrollIntoView({ behavior: "smooth" });
-      }
-    }
-  };
-
-  useEffect(() => {
-    handleAutoScroll();
-  }, [output]);
-
-  useEffect(() => {
-    inputRef.current?.focus();
-  }, []);
+  const promptRef = useScrollToPrompt();
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
@@ -153,10 +132,11 @@ function Terminal() {
         ))}
 
         <div className="input flex items-center my-2">
-          <span className="prompt mr-2">visitor@webdev4life:~$</span>
+          <span ref={promptRef} className="prompt mr-2">
+            visitor@webdev4life:~$
+          </span>
           <div className="relative flex-1">
             <input
-              ref={inputRef}
               className="command bg-transparent outline-none text-teal-400 mr-2"
               type="text"
               value={input}
