@@ -1,31 +1,40 @@
 import React, { useState, useEffect } from "react";
 
 interface TypewriterProps {
-  text: string;
+  content: string | JSX.Element;
   speed?: number;
 }
 
-const Typewriter: React.FC<TypewriterProps> = ({ text, speed = 45 }) => {
-  const [displayedText, setDisplayedText] = useState("");
+const Typewriter: React.FC<TypewriterProps> = ({ content, speed = 45 }) => {
+  const [displayedContent, setDisplayedContent] = useState<
+    string | JSX.Element
+  >("");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [typingCompleted, setTypingCompleted] = useState(false);
 
   useEffect(() => {
-    if (!typingCompleted) {
-      const typeInterval = setInterval(() => {
-        if (currentIndex < text.length) {
-          setDisplayedText(displayedText + text[currentIndex]);
-          setCurrentIndex(currentIndex + 1);
-        } else {
-          clearInterval(typeInterval);
-          setTypingCompleted(true);
-        }
-      }, speed);
-      return () => clearInterval(typeInterval);
+    if (typeof content === "string") {
+      if (!typingCompleted) {
+        const typeInterval = setInterval(() => {
+          if (currentIndex < content.length) {
+            setDisplayedContent(
+              (prevContent) => prevContent + content[currentIndex]
+            );
+            setCurrentIndex((prevIndex) => prevIndex + 1);
+          } else {
+            clearInterval(typeInterval);
+            setTypingCompleted(true);
+          }
+        }, speed);
+        return () => clearInterval(typeInterval);
+      }
+    } else {
+      setDisplayedContent(content);
+      setTypingCompleted(true);
     }
-  }, [text, speed, currentIndex, displayedText, typingCompleted]);
+  }, [content, speed, currentIndex, typingCompleted]);
 
-  return <span>{displayedText}</span>;
+  return <span>{displayedContent}</span>;
 };
 
 export default Typewriter;

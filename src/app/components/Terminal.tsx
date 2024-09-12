@@ -52,7 +52,7 @@ function Terminal() {
   };
 
   const handleCommand = (command: string, args?: string[]) => {
-    let response: JSX.Element | string = "";
+    let response: string | JSX.Element = "";
 
     switch (command.toLowerCase()) {
       case "help":
@@ -74,7 +74,7 @@ function Terminal() {
         response = contact();
         break;
       case "minesweeper":
-        Minesweeper();
+        response = <Minesweeper />;
         break;
       case "clear":
         setOutput([]);
@@ -98,13 +98,16 @@ function Terminal() {
       <Typewriter key={`response-${output.length}`} text={response} />
     );
 
-    setOutput([
-      ...output,
-      <div key={`command-${output.length}`} className="text-yellow-400 py-2">
+    setOutput((prevOutput) => [
+      ...prevOutput,
+      <div
+        key={`command-${prevOutput.length}`}
+        className="text-yellow-400 py-2"
+      >
         visitor@webdev4life:~$ {command}
       </div>,
-      <div key={`response-${output.length}`} className="text-teal-400 py-2">
-        {outputWithTypewriter}
+      <div key={`response-${prevOutput.length}`} className="text-teal-400 py-2">
+        <Typewriter content={response} />
       </div>,
     ]);
   };
