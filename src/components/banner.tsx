@@ -1,13 +1,14 @@
 export default function Banner() {
   return (
     <div
+      className="pt-6"
       style={{
         fontFamily: "'Courier New', Courier, monospace",
         whiteSpace: "pre-wrap", // Ensures whitespace and line breaks are preserved
         lineHeight: "1.2", // Adjust line height to prevent squishing
         fontSize: "14px", // Set font size to ensure readability
         display: "flex",
-        maxWidth: "600px",
+        // maxWidth: "600px",
       }}
     >
       <span style={{ width: "500px", height: "300px" }}>

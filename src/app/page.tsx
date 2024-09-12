@@ -1,9 +1,9 @@
 import Head from "next/head";
-import Terminal from "../app/components/terminal";
+import Terminal from "../components/terminal";
 
 const Home: React.FC = () => {
   return (
-    <div>
+    <div className="overflow-hidden">
       <Head>
         <title>My Portfolio</title>
         <meta name="description" content="CLI Terminal Style Portfolio" />

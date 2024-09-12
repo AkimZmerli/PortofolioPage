@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, KeyboardEvent, useEffect, useRef } from "react";
-import Banner from "../components/banner";
-import Typewriter from "../components/Typewriter";
+import Banner from "./banner";
+import Typewriter from "./Typewriter";
 import getWeather from "./weather";
 import { help } from "./help";
 import { about } from "./about";
@@ -53,7 +53,7 @@ function Terminal() {
   };
 
   const handleCommand = (command: string, args?: string[]) => {
-    let response: JSX.Element | string = "";
+    let response: string | JSX.Element = "";
 
     switch (command.toLowerCase()) {
       case "help":
@@ -102,26 +102,28 @@ function Terminal() {
       <Typewriter key={`response-${output.length}`} text={response} />
     );
 
-    setOutput([
-      ...output,
-      <div key={`command-${output.length}`} className="text-yellow-400 py-2">
+    setOutput((prevOutput) => [
+      ...prevOutput,
+      <div
+        key={`command-${prevOutput.length}`}
+        className="text-yellow-400 py-2"
+      >
         visitor@webdev4life:~$ {command}
       </div>,
-      <div key={`response-${output.length}`} className="text-teal-400 py-2">
-        {outputWithTypewriter}
+      <div key={`response-${prevOutput.length}`} className="text-teal-400 py-2">
+        <Typewriter content={response} />
       </div>,
     ]);
   };
 
   return (
     <div
-      className="bg-black text-teal-400 font-mono h-screen p-6"
+      className="bg-black text-teal-400 font-mono h-screen p-6 pt-0 overflow-x-hidden"
       style={{
         backgroundImage: "radial-gradient(rgb(205, 25, 205) 5%, black 0)",
         backgroundSize: "40px 40px",
         minWidth: "500px",
-        maxHeight: "10000px",
-        overflow: "auto",
+        // maxHeight: "10000px",
       }}
     >
       {/* Banner Section */}
@@ -141,7 +143,7 @@ function Terminal() {
       )}
 
       <div
-        className="overflow-auto h-full"
+        className=""
         style={{
           padding: "8px 0", // Extra padding around the output container
         }}
