@@ -74,7 +74,7 @@ function Terminal() {
         response = contact();
         break;
       case "minesweeper":
-        Minesweeper();
+        response = <Minesweeper />;
         break;
       case "clear":
         setOutput([]);
@@ -111,7 +111,7 @@ function Terminal() {
 
   return (
     <div
-      className="bg-black text-teal-400 font-mono h-screen p-4"
+      className="bg-black text-teal-400 font-mono h-screen p-6"
       style={{
         backgroundImage: "radial-gradient(rgb(205, 25, 205) 5%, black 0)",
         backgroundSize: "40px 40px",
@@ -199,7 +199,6 @@ export default Terminal;
   implement a game
   link to github and linkedIn
   add email command
-  format padding on ascii art
   autofocus on input
   */
 }

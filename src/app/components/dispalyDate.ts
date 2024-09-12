@@ -17,5 +17,5 @@ export function displayDate(): string {
     daySuffix = "th";
   }
 
-  return `You have asked for the date.. Here it is: today is ${month} ${day}${daySuffix}, ${year} and it's ${hour}:${minute}. Now enjoy your day.`;
+  return `You have asked for the date.. and there you go: today is ${month} ${day}${daySuffix}, ${year} and the time is ${hour}:${minute}. Now enjoy your day.`;
 }

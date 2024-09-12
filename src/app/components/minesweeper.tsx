@@ -1,24 +1,23 @@
 import React, { useState } from "react";
 
-const generateBoard = (rows: number, cols: number, mines: number) => {
-  const board = Array.from({ length: rows }, () =>
-    Array.from({ length: cols }, () => ({ isOpen: false, hasMine: false }))
-  );
+export function Minesweeper() {
+  const generateBoard = (rows: number, cols: number, mines: number) => {
+    const board = Array.from({ length: rows }, () =>
+      Array.from({ length: cols }, () => ({ isOpen: false, hasMine: false }))
+    );
 
-  let minesPlaced = 0;
-  while (minesPlaced < mines) {
-    const row = Math.floor(Math.random() * rows);
-    const col = Math.floor(Math.random() * cols);
-    if (!board[row][col].hasMine) {
-      board[row][col].hasMine = true;
-      minesPlaced++;
+    let minesPlaced = 0;
+    while (minesPlaced < mines) {
+      const row = Math.floor(Math.random() * rows);
+      const col = Math.floor(Math.random() * cols);
+      if (!board[row][col].hasMine) {
+        board[row][col].hasMine = true;
+        minesPlaced++;
+      }
     }
-  }
 
-  return board;
-};
-
-const Minesweeper: React.FC = () => {
+    return board;
+  };
   const rows = 8;
   const cols = 8;
   const mines = 10;
@@ -61,6 +60,6 @@ const Minesweeper: React.FC = () => {
       ))}
     </div>
   );
-};
+}
 
 export default Minesweeper;
