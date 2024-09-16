@@ -80,7 +80,7 @@ function Terminal() {
       case "minesweeper":
         response = <Minesweeper />;
         break;
-      case "clear":
+      case "ceaar":
         setOutput([]);
         setShowBanner(false);
         setInput("");
