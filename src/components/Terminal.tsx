@@ -74,7 +74,7 @@ function Terminal() {
         });
         break;
 
-      case "contact":
+      case "contcat":
         response = contact();
         break;
       case "minesweeper":
