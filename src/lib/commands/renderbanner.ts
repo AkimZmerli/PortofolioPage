@@ -1,5 +1,5 @@
 import React from "react";
-import Banner from "./banner";
+import Banner from "../lib/commands/banner";
 import { defaultConfig } from "next/dist/server/config-shared";
 
 // Define the type for the props

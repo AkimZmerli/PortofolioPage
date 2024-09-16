@@ -1,13 +1,13 @@
 "use client";
 import React, { useState, KeyboardEvent, useEffect, useRef } from "react";
-import Banner from "./banner";
+import Banner from "../lib/commands/banner";
 import Typewriter from "./Typewriter";
-import getWeather from "./weather";
-import { help } from "./help";
-import { about } from "./about";
-import { contact } from "./contact";
-import { secret } from "./secret";
-import { displayDate } from "./dispalyDate";
+import getWeather from "../lib/commands/weather";
+import { help } from "../lib/commands/help";
+import { about } from "../lib/commands/about";
+import { contact } from "../lib/commands/contact";
+import { secret } from "../lib/commands/secret";
+import { displayDate } from "../lib/commands/dispalyDate";
 import { Minesweeper } from "./minesweeper";
 import { EmailMe } from "./EmailMe";
 
