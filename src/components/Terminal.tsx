@@ -9,7 +9,7 @@ import { contact } from "../lib/commands/contact";
 import { secret } from "../lib/commands/secret";
 import { displayDate } from "../lib/commands/dispalyDate";
 import { Minesweeper } from "./minesweeper";
-import { EmailMe } from "./EmailMe";
+import { EmailMe } from "../lib/commands/EmailMe";
 
 function Terminal() {
   const [input, setInput] = useState("");
