@@ -7,8 +7,8 @@ interface Cell {
 }
 
 export const Minesweeper: React.FC = () => {
-  const rows = 8;
-  const cols = 8;
+  const rows = 10;
+  const cols = 10;
   const mines = 10;
 
   const generateBoard = useCallback((): Cell[][] => {
