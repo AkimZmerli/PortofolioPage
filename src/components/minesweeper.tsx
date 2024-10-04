@@ -9,7 +9,7 @@ interface Cell {
 export const Minesweeper: React.FC = () => {
   const rows = 10;
   const cols = 10;
-  const mines = 4;
+  const mines = 2;
 
   const generateBoard = useCallback((): Cell[][] => {
     const board: Cell[][] = Array.from({ length: rows }, () =>
