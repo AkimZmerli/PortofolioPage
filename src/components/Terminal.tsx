@@ -4,7 +4,7 @@ import Banner from "../lib/commands/banner";
 import Typewriter from "./Typewriter";
 import getWeather from "../lib/commands/weather";
 import { help } from "../lib/commands/help";
-import { About } from "../lib/commands/about";
+import About from "../lib/commands/about";
 import { secret } from "../lib/commands/secret";
 import { displayDate } from "../lib/commands/dispalyDate";
 import { Minesweeper } from "./minesweeper";
@@ -59,7 +59,7 @@ function Terminal() {
         response = help();
         break;
       case "about":
-        response = About();
+        response = <About />;
         break;
       case "email":
         response = EmailMe();
