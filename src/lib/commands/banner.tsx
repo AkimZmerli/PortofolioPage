@@ -1,7 +1,6 @@
 export default function Banner() {
   return (
     <div
-      className="pt-6"
       style={{
         fontFamily: "'Courier New', Courier, monospace",
         whiteSpace: "pre-wrap", // Ensures whitespace and line breaks are preserved
@@ -11,7 +10,7 @@ export default function Banner() {
         // maxWidth: "600px",
       }}
     >
-      <span style={{ width: "500px", height: "300px" }}>
+      <span style={{ width: "400px", height: "300px" }}>
         ⠀⢴⢖⠂⠩⠭⠉⣉⠐⠒⠤⣀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣀⡀⠀⠀⠀⠀⠀⠀ ⠀⠀⠑⠪⠾⢳⡔⠀⢋⠅⠒⠠⣑⠢⣀⡠⠔⣊⠭⠀⢒⠒⡒⢖⠫⠱⢶⣤⡀⠀
         ⠀⠀⠀⠀⠀⠀⠉⠉⣳⠥⠤⠓⢚⡛⢿⢖⣿⣷⣧⣆⢂⢂⠰⠀⠆⠡⠐⠘⡍⢣ ⠀⠀⠀⠀⢀⡤⠒⠉⡀⠤⠒⡍⠄⢠⣇⡀⢁⠢⣈⠓⠮⣄⣀⡗⡌⠤⠿⠔⠊⠁
         ⠀⠀⢀⠔⢁⠠⠒⢡⠘⢠⣅⣰⣼⣿⣿⣷⣦⠆⡠⢑⢄⠈⢢⠀⠀⠀⠀⠀⠀⠀ ⢀⣔⡡⠆⢃⠃⣞⣀⠦⢺⣾⣿⣿⣿⢯⣿⣿⣷⣤⡥⢀⠥⡀⢣⠀⠀⠀⠀⠀⠀
@@ -25,9 +24,10 @@ export default function Banner() {
       <span
         style={{
           display: "flex",
+          justifyContent: "start",
           alignItems: "center",
-          maxWidth: "300px",
           maxHeight: "300px",
+          marginTop: "-2rem",
         }}
       >
         <pre className="text-sm">

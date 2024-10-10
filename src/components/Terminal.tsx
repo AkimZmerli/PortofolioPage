@@ -9,6 +9,7 @@ import { secret } from "../lib/commands/secret";
 import { displayDate } from "../lib/commands/dispalyDate";
 import { Minesweeper } from "./minesweeper";
 import { EmailMe } from "../lib/commands/EmailMe";
+import { Projects } from "../lib/commands/projects";
 
 function Terminal() {
   const [input, setInput] = useState("");
@@ -18,6 +19,10 @@ function Terminal() {
   ]);
   const inputRef = useRef<HTMLInputElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const [waitingForInput, setWaitingForInput] = useState<{
+    action: (input: string) => void | Promise<void>;
+    prompt?: string;
+  } | null>(null);
 
   const handleAutoScroll = () => {
     if (bottomRef.current && inputRef.current) {
@@ -58,9 +63,19 @@ function Terminal() {
       case "help":
         response = help();
         break;
-      case "about":
+      case "whoami":
         response = <About />;
+      case "projects": {
+        const response = Projects();
+        setOutput((prev) => [...prev, response.message]);
+
+        // Set up to handle the next input
+        setWaitingForInput({
+          action: response.action,
+          prompt: "Waiting for y/n...", // Optional, if you want to show a different prompt
+        });
         break;
+      }
       case "email":
         response = EmailMe();
         break;
@@ -71,6 +86,10 @@ function Terminal() {
             <pre key="weather">{weatherData}</pre>,
           ]);
         });
+        break;
+
+      case "date":
+        response = displayDate();
         break;
 
       case "minesweeper":
@@ -114,73 +133,65 @@ function Terminal() {
 
   return (
     <div
-      className="bg-black text-teal-400 font-mono h-screen p-6 pt-0 overflow-x-hidden"
+      className="bg-black text-teal-400 font-mono h-screen overflow-x-hidden"
       style={{
         backgroundImage: "radial-gradient(rgb(205, 25, 205) 5%, black 0)",
         backgroundSize: "40px 40px",
         minWidth: "500px",
-        // maxHeight: "10000px",
       }}
     >
-      {/* Banner Section */}
-      {showBanner && (
-        <div className="mb-4">
-          <Banner />
-        </div>
-      )}
-
-      {/* Terminal Section */}
-      {!output.length && !showBanner && (
-        <div className="py-4">
-          {" "}
-          {/* Increased padding for the initial 'help' message */}
-          <p>Type 'help' to search for commands</p>
-        </div>
-      )}
-
-      <div
-        className=""
-        style={{
-          padding: "8px 0", // Extra padding around the output container
-        }}
-      >
-        {output.map((line, index) => (
-          <div key={index} className="output py-2">
-            {" "}
-            {/* Padding for each output line */}
-            <div className="whitespace-pre" style={{ whiteSpace: "pre" }}>
-              {line}
-            </div>
+      <div className="p-8">
+        {/* Banner Section */}
+        {showBanner && (
+          <div className="mb-4 mt-6">
+            <Banner />
           </div>
-        ))}
+        )}
 
-        <div className="input flex items-center my-2">
-          <span className="prompt mr-2">visitor@webdev4life:~$</span>
-          <div className="relative flex-1">
-            <input
-              ref={inputRef}
-              className="command bg-transparent outline-none text-teal-400 mr-2"
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={handleKeyDown}
-              style={{
-                caretColor: "transparent",
-                padding: "4px 0", // Padding inside the input
-              }}
-            />
-            <div
-              className="absolute top-0 bottom-0 bg-teal-400 p-0"
-              style={{
-                width: "10px",
-                height: "24px",
-                left: `${input.length * 10 + 1}px`,
-                animation: "blinker 1s linear infinite",
-              }}
-            ></div>
+        {/* Terminal Section */}
+        {!output.length && !showBanner && (
+          <div className="py-4">
+            <p>Type &apos;help&apos; to search for commands</p>
+          </div>
+        )}
+
+        {/* Output Container */}
+        <div>
+          {output.map((line, index) => (
+            <div key={index} className="output py-2">
+              <div className="whitespace-pre-wrap">{line}</div>
+            </div>
+          ))}
+
+          {/* Input Line */}
+          <div className="input flex items-center my-2">
+            <span className="prompt mr-2">visitor@webdev4life:~$</span>
+            <div className="relative flex-1">
+              <input
+                ref={inputRef}
+                className="command bg-transparent outline-none text-teal-400 w-full"
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={handleKeyDown}
+                style={{ caretColor: "transparent" }}
+              />
+              <div
+                className="absolute top-0 bottom-0 bg-teal-400"
+                style={{
+                  width: "10px",
+                  height: "24px",
+                  left: `${input.length * 10 + 1}px`,
+                  animation: "blinker 1s linear infinite",
+                }}
+              ></div>
+            </div>
           </div>
         </div>
       </div>
+
+      <div ref={bottomRef} />
+
       <style jsx global>{`
         @keyframes blinker {
           50% {
@@ -197,10 +208,8 @@ export default Terminal;
 {
   /*
   ToDo: 
-  remove double scrolling on weather
-  implement a game
+
   link to github and linkedIn
-  add email command
   autofocus on input
   */
 }
