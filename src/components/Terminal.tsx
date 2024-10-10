@@ -89,7 +89,7 @@ function Terminal() {
         break;
 
       case "date":
-        response = displayDate();
+        response = displayate();
         break;
 
       case "minesweeper":
