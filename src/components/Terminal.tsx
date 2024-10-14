@@ -11,7 +11,7 @@ import { Minesweeper } from "./minesweeper";
 import { EmailMe } from "../lib/commands/EmailMe";
 import { Projects } from "../lib/commands/projects";
 
-function Terminal() {
+export function Terminal() {
   const [input, setInput] = useState("");
   const [showBanner, setShowBanner] = useState(true); // Start with the banner shown
   const [output, setOutput] = useState<React.ReactNode[]>([

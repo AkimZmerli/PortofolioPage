@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { Terminal } from "../components/Terminal";
 
 const Home: React.FC = () => {
   return (
