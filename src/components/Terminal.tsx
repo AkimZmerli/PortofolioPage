@@ -114,7 +114,7 @@ export function Terminal() {
     }
 
     const outputWithTypewriter = (
-      <Typewriter key={`response-${output.length}`} text={response} />
+      <Typewriter key={`response-${output.length}`} content={response} />
     );
 
     setOutput((prevOutput) => [
