@@ -3,6 +3,8 @@ interface ProjectsResponse {
   action: (input: string) => void | Promise<void>;
 }
 
+//
+
 export function Projects(): ProjectsResponse {
   const handleInput = async (input: string) => {
     if (input.toLowerCase() === "y") {

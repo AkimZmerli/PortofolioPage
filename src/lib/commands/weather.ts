@@ -2,7 +2,7 @@ const location = "Leipzig";
 
 const getWeather = async (location: string): Promise<string> => {
   try {
-    const response = await fetch(`http://wttr.in/${location}?ATm`);
+    const response = await fetch(`https://wttr.in/${location}?ATm`);
     // console.log(response.data);
 
     return response.text();

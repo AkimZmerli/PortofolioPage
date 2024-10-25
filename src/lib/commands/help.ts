@@ -1,5 +1,5 @@
 export function help(): string {
-  return "Available commands: whoami, weather, minesweeper, email, clear, banner, secret";
+  return "Available commands: whoami, date, projects, weather, email, clear, banner";
 }
 
 // : number {

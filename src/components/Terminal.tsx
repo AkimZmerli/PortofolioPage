@@ -67,12 +67,14 @@ export function Terminal() {
         response = <About />;
       case "projects": {
         const response = Projects();
-        setOutput((prev) => [...prev, response.message]);
+        // use waitingforinput variable
+        // instead of sending output
+        // wait for input
 
-        // Set up to handle the next input
         setWaitingForInput({
           action: response.action,
-          prompt: "Waiting for y/n...", // Optional, if you want to show a different prompt
+          prompt:
+            "All of my incredible projects will appear right now. right here. press y for proceed and n for cancel.",
         });
         break;
       }
