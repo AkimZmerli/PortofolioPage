@@ -4,7 +4,7 @@ import Banner from "../lib/commands/banner";
 import Typewriter from "./Typewriter";
 import getWeather from "../lib/commands/weather";
 import { help } from "../lib/commands/help";
-import About from "../lib/commands/about";
+import About from "@/lib/commands/whoami";
 import { secret } from "../lib/commands/secret";
 import { displayDate } from "../lib/commands/dispalyDate";
 import { Minesweeper } from "./minesweeper";
