@@ -13,6 +13,7 @@ import { Projects } from "../lib/commands/projects";
 
 export function Terminal() {
   const [input, setInput] = useState("");
+  const [location, setLocation] = useState("Leipzig");
   const [showBanner, setShowBanner] = useState(true); // Start with the banner shown
   const [output, setOutput] = useState<React.ReactNode[]>([
     <p key="initial">Type &apos;help&apos; to search for commands</p>,
@@ -43,7 +44,26 @@ export function Terminal() {
 
   useEffect(() => {
     inputRef.current?.focus();
-  }, []);
+  }, [output]);
+
+  const handleWeatherCommand = (location: string) => {
+    getWeather(location)
+      .then((weatherData) => {
+        setOutput((prevOutput) => [
+          ...prevOutput,
+          <pre key="weather">{weatherData}</pre>,
+        ]);
+        setLocation(location);
+      })
+      .catch((error) => {
+        setOutput((prevOutput) => [
+          ...prevOutput,
+          <div key="weather-error" className="text-red-400 py-2">
+            Error retrieving weather data for {location}: {error.message}
+          </div>,
+        ]);
+      });
+  };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
@@ -51,7 +71,17 @@ export function Terminal() {
         // If the input is empty or only whitespace, do nothing
         return;
       }
-      handleCommand(input);
+
+      const [command, ...args] = input.split(" ");
+      if (command.toLowerCase() === "weather") {
+        let location = "Leipzig"; // Default location
+        if (args.length > 0) {
+          location = args.join(" ");
+        }
+        handleWeatherCommand(location);
+      } else {
+        handleCommand(input);
+      }
       setInput("");
     }
   };
@@ -82,12 +112,27 @@ export function Terminal() {
         response = EmailMe();
         break;
       case "weather":
-        getWeather("Leipzig").then((weatherData) => {
-          setOutput((prevOutput) => [
-            ...prevOutput,
-            <pre key="weather">{weatherData}</pre>,
-          ]);
-        });
+        let locationToUse = "Leipzig";
+        if (args && args.length > 0 && args[0].trim() !== "") {
+          locationToUse = args[0];
+        }
+        getWeather(locationToUse)
+          .then((weatherData) => {
+            setOutput((prevOutput) => [
+              ...prevOutput,
+              <pre key="weather">{weatherData}</pre>,
+            ]);
+            setLocation(locationToUse);
+          })
+          .catch((error) => {
+            setOutput((prevOutput) => [
+              ...prevOutput,
+              <div key="weather-error" className="text-red-400 py-2">
+                Error retrieving weather data for {locationToUse}:{" "}
+                {error.message}
+              </div>,
+            ]);
+          });
         break;
 
       case "date":
