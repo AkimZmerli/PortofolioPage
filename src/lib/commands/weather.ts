@@ -1,5 +1,3 @@
-const location = "Leipzig";
-
 const getWeather = async (location: string): Promise<string> => {
   try {
     const response = await fetch(`https://wttr.in/${location}?ATm`);
