@@ -1,3 +1,6 @@
+// todo: implement command history properly.
+// current state: input remembers last command/ cursor moves to the beginning/ errors compiling
+
 "use client";
 import React, { useState, KeyboardEvent, useEffect, useRef } from "react";
 import Banner from "../lib/commands/banner";
@@ -12,7 +15,7 @@ import { EmailMe } from "../lib/commands/EmailMe";
 import { Projects } from "../lib/commands/projects";
 
 export function Terminal() {
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState<string>("");
   const [location, setLocation] = useState("Leipzig");
   const [showBanner, setShowBanner] = useState(true); // Start with the banner shown
   const [output, setOutput] = useState<React.ReactNode[]>([
@@ -20,6 +23,8 @@ export function Terminal() {
   ]);
   const inputRef = useRef<HTMLInputElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const [commandHistory, setCommandHistory] = useState<string[]>([]);
+  const [commandIndex, setCommandIndex] = useState(-1);
   const [waitingForInput, setWaitingForInput] = useState<{
     action: (input: string) => void | Promise<void>;
     prompt?: string;
@@ -82,7 +87,39 @@ export function Terminal() {
       } else {
         handleCommand(input);
       }
+      setCommandHistory((prevHistory) => [...prevHistory, input]);
+      setCommandIndex(-1);
       setInput("");
+    } else if (e.key === "ArrowUp") {
+      // Navigate up the command history
+      if (commandHistory.length > 0) {
+        const newIndex =
+          commandIndex === -1 ? commandHistory.length - 1 : commandIndex + 1;
+        setCommandIndex(newIndex);
+        setInput(commandHistory[newIndex]);
+        inputRef.current?.focus();
+        inputRef.current?.setSelectionRange(
+          commandHistory[newIndex].length,
+          commandHistory[newIndex].length
+        );
+      }
+    } else if (e.key === "ArrowDown") {
+      // Navigate down the command history
+      if (commandHistory.length > 0) {
+        const newIndex =
+          commandIndex === commandHistory.length - 1 ? -1 : commandIndex - 1;
+        setCommandIndex(newIndex);
+        setInput(newIndex === -1 ? "" : commandHistory[newIndex]);
+        if (newIndex === -1) {
+          inputRef.current?.focus();
+        } else {
+          inputRef.current?.focus();
+          inputRef.current?.setSelectionRange(
+            commandHistory[newIndex].length,
+            commandHistory[newIndex].length
+          );
+        }
+      }
     }
   };
 
@@ -228,7 +265,9 @@ export function Terminal() {
                 style={{
                   width: "10px",
                   height: "24px",
-                  left: `${input.length * 10 + 1}px`,
+                  left: `${
+                    input && input.length > 0 ? input.length * 10 + 1 : 0
+                  }px`,
                   animation: "blinker 1s linear infinite",
                 }}
               ></div>
@@ -251,12 +290,3 @@ export function Terminal() {
 }
 
 export default Terminal;
-
-{
-  /*
-  ToDo: 
-
-  link to github and linkedIn
-  autofocus on input
-  */
-}
