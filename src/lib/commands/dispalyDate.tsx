@@ -1,4 +1,6 @@
-export function displayDate(): string {
+import Typewriter from "@/components/Typewriter";
+
+export function displayDate() {
   const date = new Date();
   const year = date.getFullYear();
   const month = date.toLocaleString("default", { month: "long" });
@@ -17,5 +19,11 @@ export function displayDate(): string {
     daySuffix = "th";
   }
 
-  return `You have asked for the date.. and there you go: today is ${month} ${day}${daySuffix}, ${year} and the time is ${hour}:${minute}. Now enjoy your day.`;
+  return (
+    <div>
+      <Typewriter
+        content={`You have asked for the date.. and there you go: today is ${month} ${day}${daySuffix}, ${year} and the time is ${hour}:${minute}. Now enjoy your day.`}
+      />
+    </div>
+  );
 }

@@ -1,182 +1,65 @@
 "use client";
-import React, { useState, KeyboardEvent, useEffect, useRef } from "react";
+// components/Terminal.tsx
+import React, { useState } from "react";
+import { useCommands } from "../app/hooks/useCommandHooks";
+import { TerminalOutput } from "./TerminalOutput";
+import { TerminalCursor } from "./TerminalCursor";
+import { useTerminalInput } from "../app/hooks/useTerminalInput";
 import Banner from "../lib/commands/banner";
-import Typewriter from "./Typewriter";
-import getWeather from "../lib/commands/weather";
-import { help } from "../lib/commands/help";
-import About from "@/lib/commands/whoami";
-import { secret } from "../lib/commands/secret";
-import { displayDate } from "../lib/commands/dispalyDate";
-import { Minesweeper } from "./minesweeper";
-import { EmailMe } from "../lib/commands/EmailMe";
-import { Projects } from "../lib/commands/projects";
+
+interface WaitingInputState {
+  prompt: string;
+}
 
 export function Terminal() {
-  const [input, setInput] = useState("");
-  const [location, setLocation] = useState("Leipzig");
-  const [showBanner, setShowBanner] = useState(true); // Start with the banner shown
   const [output, setOutput] = useState<React.ReactNode[]>([
     <p key="initial">Type &apos;help&apos; to search for commands</p>,
   ]);
-  const inputRef = useRef<HTMLInputElement>(null);
-  const bottomRef = useRef<HTMLDivElement>(null);
-  const [waitingForInput, setWaitingForInput] = useState<{
-    action: (input: string) => void | Promise<void>;
-    prompt?: string;
-  } | null>(null);
+  const [showBanner, setShowBanner] = useState(true);
 
-  const handleAutoScroll = () => {
-    if (bottomRef.current && inputRef.current) {
-      const { scrollTop, scrollHeight, clientHeight } =
-        inputRef.current.parentElement!;
+  const appendOutput = React.useCallback((content: React.ReactNode) => {
+    setOutput((prev) => [...prev, content]);
+  }, []);
 
-      // Check if the bottom is near by 100 pixels
-      const distanceToBottom = scrollHeight - (scrollTop + clientHeight);
-      if (distanceToBottom <= 200) {
-        bottomRef.current.scrollIntoView({ behavior: "smooth" });
+  const { executeCommand, waitingForInput, isWaitingForInput } = useCommands({
+    onOutput: appendOutput,
+    onClear: () => setOutput([]),
+    onBanner: () => setShowBanner(true),
+    onStateChange: (newState) => {
+      // Handle any state changes from commands
+      if ("showBanner" in newState) {
+        setShowBanner(newState.showBanner);
       }
-    }
-  };
+      // Add other state handling as needed
+    },
+  });
 
-  useEffect(() => {
-    handleAutoScroll();
-  }, [output]);
-
-  useEffect(() => {
-    inputRef.current?.focus();
-  }, [output]);
-
-  const handleWeatherCommand = (location: string) => {
-    getWeather(location)
-      .then((weatherData) => {
-        setOutput((prevOutput) => [
-          ...prevOutput,
-          <pre key="weather">{weatherData}</pre>,
-        ]);
-        setLocation(location);
-      })
-      .catch((error) => {
-        setOutput((prevOutput) => [
-          ...prevOutput,
-          <div key="weather-error" className="text-red-400 py-2">
-            Error retrieving weather data for {location}: {error.message}
-          </div>,
-        ]);
-      });
-  };
-
-  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      if (input.trim() === "") {
-        // If the input is empty or only whitespace, do nothing
-        return;
-      }
-
-      const [command, ...args] = input.split(" ");
-      if (command.toLowerCase() === "weather") {
-        let location = "Leipzig"; // Default location
-        if (args.length > 0) {
-          location = args.join(" ");
-        }
-        handleWeatherCommand(location);
-      } else {
-        handleCommand(input);
-      }
-      setInput("");
-    }
-  };
-
-  const handleCommand = (command: string, args?: string[]) => {
-    let response: string | JSX.Element = "";
-
-    switch (command.toLowerCase()) {
-      case "help":
-        response = help();
-        break;
-      case "whoami":
-        response = <About />;
-      case "projects": {
-        const response = Projects();
-        // use waitingforinput variable
-        // instead of sending output
-        // wait for input
-
-        setWaitingForInput({
-          action: response.action,
-          prompt:
-            "All of my incredible projects will appear right now. right here. press y for proceed and n for cancel.",
-        });
-        break;
-      }
-      case "email":
-        response = EmailMe();
-        break;
-      case "weather":
-        let locationToUse = "Leipzig";
-        if (args && args.length > 0 && args[0].trim() !== "") {
-          locationToUse = args[0];
-        }
-        getWeather(locationToUse)
-          .then((weatherData) => {
-            setOutput((prevOutput) => [
-              ...prevOutput,
-              <pre key="weather">{weatherData}</pre>,
-            ]);
-            setLocation(locationToUse);
-          })
-          .catch((error) => {
-            setOutput((prevOutput) => [
-              ...prevOutput,
-              <div key="weather-error" className="text-red-400 py-2">
-                Error retrieving weather data for {locationToUse}:{" "}
-                {error.message}
-              </div>,
-            ]);
-          });
-        break;
-
-      case "date":
-        response = displayDate();
-        break;
-
-      case "minesweeper":
-        response = <Minesweeper />;
-        break;
-      case "clear":
-        setOutput([]);
-        setShowBanner(false);
-        setInput("");
-        return;
-      case "banner":
-        setShowBanner(true);
-        return;
-      case "secret":
-        response = secret();
-        break;
-      case "date":
-        response = displayDate();
-        break;
-      default:
-        response = `Command not found: ${command}`;
-    }
-
-    const outputWithTypewriter = (
-      <Typewriter key={`response-${output.length}`} content={response} />
+  const handleCommandSubmit = (command: string, args: string[]) => {
+    // Add command to output
+    appendOutput(
+      <div key={`command-${Date.now()}`} className="text-yellow-400 py-2">
+        visitor@webdev4life:~$ {command} {args.join(" ")}
+      </div>
     );
 
-    setOutput((prevOutput) => [
-      ...prevOutput,
-      <div
-        key={`command-${prevOutput.length}`}
-        className="text-yellow-400 py-2"
-      >
-        visitor@webdev4life:~$ {command}
-      </div>,
-      <div key={`response-${prevOutput.length}`} className="text-teal-400 py-2">
-        <Typewriter content={response} />
-      </div>,
-    ]);
+    // Execute the command
+    executeCommand(command, args);
   };
+
+  const terminalInput = useTerminalInput({
+    onCommand: handleCommandSubmit,
+    isWaitingForInput: isWaitingForInput, // Use isWaitingForInput here
+  });
+
+  const {
+    input,
+    setInput,
+    isFocused,
+    inputRef,
+    handleKeyDown,
+    handleFocus,
+    handleBlur,
+  } = terminalInput;
 
   return (
     <div
@@ -188,70 +71,39 @@ export function Terminal() {
       }}
     >
       <div className="p-8">
-        {/* Banner Section */}
-        {showBanner && (
-          <div className="mb-4 mt-6">
-            <Banner />
-          </div>
-        )}
+        {showBanner && <Banner />}
 
-        {/* Terminal Section */}
-        {!output.length && !showBanner && (
-          <div className="py-4">
-            <p>Type &apos;help&apos; to search for commands</p>
-          </div>
-        )}
+        <TerminalOutput output={output} />
 
-        {/* Output Container */}
-        <div>
-          {output.map((line, index) => (
-            <div key={index} className="output py-2">
-              <div className="whitespace-pre-wrap">{line}</div>
-            </div>
-          ))}
-
-          {/* Input Line */}
-          <div className="input flex items-center my-2">
-            <span className="prompt mr-2">visitor@webdev4life:~$</span>
-            <div className="relative flex-1">
-              <input
-                ref={inputRef}
-                className="command bg-transparent outline-none text-teal-400 w-full"
-                type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={handleKeyDown}
-                style={{ caretColor: "transparent" }}
-              />
-              <div
-                className="absolute top-0 bottom-0 bg-teal-400"
-                style={{
-                  width: "10px",
-                  height: "24px",
-                  left: `${input.length * 10 + 1}px`,
-                  animation: "blinker 1s linear infinite",
-                }}
-              ></div>
-            </div>
+        <div className="input flex items-center my-2">
+          <span className="prompt mr-2">
+            {isWaitingForInput ? "> " : "visitor@webdev4life:~$ "}
+          </span>
+          <div className="relative flex-1">
+            <input
+              ref={inputRef}
+              className="command bg-transparent outline-none text-teal-400 w-full"
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={handleKeyDown}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
+              style={{ caretColor: "transparent" }}
+            />
+            <TerminalCursor isFocused={isFocused} inputLength={input.length} />
           </div>
         </div>
+
+        {(waitingForInput as WaitingInputState)?.prompt && (
+          <div className="text-yellow-400 mt-2">
+            {(waitingForInput as WaitingInputState).prompt}
+          </div>
+        )}
       </div>
-
-      <div ref={bottomRef} />
-
-      <style jsx global>{`
-        @keyframes blinker {
-          50% {
-            opacity: 0;
-          }
-        }
-      `}</style>
     </div>
   );
 }
-
-export default Terminal;
-
 {
   /*
   ToDo: 
