@@ -1,6 +1,6 @@
 "use client";
 // components/Terminal.tsx
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useCommands } from "../app/hooks/useCommandHooks";
 import { TerminalOutput } from "./TerminalOutput";
 import { TerminalCursor } from "./TerminalCursor";
@@ -9,6 +9,8 @@ import Banner from "../lib/commands/banner";
 
 interface WaitingInputState {
   prompt: string;
+  inputRef: React.RefObject<HTMLInputElement>;
+  bottomRef: React.RefObject<HTMLDivElement>;
 }
 
 export function Terminal() {
