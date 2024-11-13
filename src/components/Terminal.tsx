@@ -6,11 +6,16 @@ import { TerminalOutput } from "./TerminalOutput";
 import { TerminalCursor } from "./TerminalCursor";
 import { useTerminalInput } from "../app/hooks/useTerminalInput";
 import Banner from "../lib/commands/banner";
+import { useTerminal } from "./hooks/useTerminal";
 
 interface WaitingInputState {
   prompt: string;
-  inputRef: React.RefObject<HTMLInputElement>;
+}
+
+interface TerminalProps {
   bottomRef: React.RefObject<HTMLDivElement>;
+  inputRef: React.RefObject<HTMLInputElement>;
+  // Other props
 }
 
 export function Terminal() {
