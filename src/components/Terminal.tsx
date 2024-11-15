@@ -1,12 +1,13 @@
 "use client";
 // components/Terminal.tsx
 import React, { useState, useRef } from "react";
-import { useCommands } from "../app/hooks/useCommandHooks";
+import { useCommands } from "../components/hooks/useCommandHooks";
 import { TerminalOutput } from "./TerminalOutput";
 import { TerminalCursor } from "./TerminalCursor";
-import { useTerminalInput } from "../app/hooks/useTerminalInput";
+import { useTerminalInput } from "./hooks/useTerminalInput";
 import Banner from "../lib/commands/banner";
 import { useTerminal } from "./hooks/useTerminal";
+import { useAutoScroll } from "./hooks/useAutoScroll";
 
 interface WaitingInputState {
   prompt: string;
@@ -51,6 +52,9 @@ export function Terminal() {
 
     // Execute the command
     executeCommand(command, args);
+
+    console.log(inputRef.current);
+    inputRef.current?.focus();
   };
 
   const terminalInput = useTerminalInput({
@@ -67,6 +71,8 @@ export function Terminal() {
     handleFocus,
     handleBlur,
   } = terminalInput;
+
+  useAutoScroll();
 
   return (
     <div

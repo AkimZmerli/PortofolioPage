@@ -37,7 +37,7 @@ export const commandMap: Record<string, CommandConfig> = {
     execute: () => {
       const response = Projects();
       return {
-        content: "Loading projects...",
+        content: "Loading projects...press y for proceed and n for cancel.",
         type: "info",
         waitForInput: true,
         action: response.action,
