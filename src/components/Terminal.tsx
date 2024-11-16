@@ -1,33 +1,28 @@
 "use client";
 // components/Terminal.tsx
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useCommands } from "../components/hooks/useCommandHooks";
 import { TerminalOutput } from "./TerminalOutput";
 import { TerminalCursor } from "./TerminalCursor";
 import { useTerminalInput } from "./hooks/useTerminalInput";
 import Banner from "../lib/commands/banner";
 import { useTerminal } from "./hooks/useTerminal";
-import { useAutoScroll } from "./hooks/useAutoScroll";
 
 interface WaitingInputState {
   prompt: string;
 }
 
-interface TerminalProps {
-  bottomRef: React.RefObject<HTMLDivElement>;
-  inputRef: React.RefObject<HTMLInputElement>;
-  // Other props
-}
-
 export function Terminal() {
-  const [output, setOutput] = useState<React.ReactNode[]>([
-    <p key="initial">Type &apos;help&apos; to search for commands</p>,
-  ]);
+  const { inputRef, bottomRef, output, setOutput, handleAutoScroll } =
+    useTerminal();
   const [showBanner, setShowBanner] = useState(true);
 
-  const appendOutput = React.useCallback((content: React.ReactNode) => {
-    setOutput((prev) => [...prev, content]);
-  }, []);
+  const appendOutput = React.useCallback(
+    (content: React.ReactNode) => {
+      setOutput((prev) => [...prev, content]);
+    },
+    [setOutput]
+  );
 
   const { executeCommand, waitingForInput, isWaitingForInput } = useCommands({
     onOutput: appendOutput,
@@ -52,9 +47,6 @@ export function Terminal() {
 
     // Execute the command
     executeCommand(command, args);
-
-    console.log(inputRef.current);
-    inputRef.current?.focus();
   };
 
   const terminalInput = useTerminalInput({
@@ -66,13 +58,11 @@ export function Terminal() {
     input,
     setInput,
     isFocused,
-    inputRef,
+
     handleKeyDown,
     handleFocus,
     handleBlur,
   } = terminalInput;
-
-  useAutoScroll();
 
   return (
     <div
@@ -114,6 +104,8 @@ export function Terminal() {
           </div>
         )}
       </div>
+
+      <div ref={bottomRef} />
     </div>
   );
 }
