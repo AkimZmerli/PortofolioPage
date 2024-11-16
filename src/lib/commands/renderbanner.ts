@@ -1,6 +1,4 @@
 import React from "react";
-import Banner from "./banner";
-import { defaultConfig } from "next/dist/server/config-shared";
 
 // Define the type for the props
 interface ShowBannerProps {

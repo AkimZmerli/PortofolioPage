@@ -1,6 +1,6 @@
 "use client";
 // components/Terminal.tsx
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useCommands } from "../components/hooks/useCommandHooks";
 import { TerminalOutput } from "./TerminalOutput";
 import { TerminalCursor } from "./TerminalCursor";
@@ -113,7 +113,8 @@ export function Terminal() {
   /*
   ToDo: 
 
-  link to github and linkedIn
-  autofocus on input
+  
+   fix clear command to banner(false)
+   add p tag 
   */
 }

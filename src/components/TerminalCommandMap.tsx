@@ -6,6 +6,7 @@ import { Minesweeper } from "./minesweeper";
 import { EmailMe } from "@/lib/commands/EmailMe";
 import { Projects } from "../lib/commands/projects";
 import { CommandResponse } from "../lib/commands/Commandtypes";
+import { clearCommand } from "../lib/commands/clear";
 
 interface CommandConfig {
   description: string;
@@ -72,8 +73,11 @@ export const commandMap: Record<string, CommandConfig> = {
   clear: {
     description: "Clear the terminal screen",
     execute: () => ({
-      content: null,
+      content: clearCommand(),
       type: "success",
+      stateChanges: {
+        showBanner: false,
+      },
     }),
   },
 
